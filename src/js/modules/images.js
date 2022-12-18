@@ -2,6 +2,7 @@ const images = () => {
     const imgPopup = document.createElement('div');
     const workSection = document.querySelector('.portfolio-wrapper');
     const bigImg = document.createElement('img');
+    
 
     imgPopup.classList.add('popup');
     workSection.appendChild(imgPopup);
@@ -12,7 +13,6 @@ const images = () => {
     imgPopup.appendChild(bigImg);
 
     workSection.addEventListener('click', (e) => {
-        console.log(imgPopup);
         e.preventDefault();
         const target = e.target;
 

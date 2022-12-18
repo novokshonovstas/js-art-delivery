@@ -932,6 +932,8 @@ module.exports = g;
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _modules_modals__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./modules/modals */ "./src/js/modules/modals.js");
 /* harmony import */ var _modules_images__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./modules/images */ "./src/js/modules/images.js");
+/* harmony import */ var _modules_slider__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./modules/slider */ "./src/js/modules/slider.js");
+
 
 
 window.addEventListener('DOMContentLoaded', function () {
@@ -939,6 +941,8 @@ window.addEventListener('DOMContentLoaded', function () {
 
   Object(_modules_modals__WEBPACK_IMPORTED_MODULE_0__["default"])();
   Object(_modules_images__WEBPACK_IMPORTED_MODULE_1__["default"])();
+  Object(_modules_slider__WEBPACK_IMPORTED_MODULE_2__["default"])('.feedback-slider-item', 'horizontal', '.main-prev-btn', '.main-next-btn');
+  Object(_modules_slider__WEBPACK_IMPORTED_MODULE_2__["default"])('.main-slider-item', 'vertical');
 });
 
 /***/ }),
@@ -963,7 +967,6 @@ var images = function images() {
   imgPopup.style.alignItems = 'center';
   imgPopup.appendChild(bigImg);
   workSection.addEventListener('click', function (e) {
-    console.log(imgPopup);
     e.preventDefault();
     var target = e.target;
 
@@ -1099,6 +1102,103 @@ var modals = function modals() {
 };
 
 /* harmony default export */ __webpack_exports__["default"] = (modals);
+
+/***/ }),
+
+/***/ "./src/js/modules/slider.js":
+/*!**********************************!*\
+  !*** ./src/js/modules/slider.js ***!
+  \**********************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var core_js_modules_web_dom_collections_for_each__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! core-js/modules/web.dom-collections.for-each */ "./node_modules/core-js/modules/web.dom-collections.for-each.js");
+/* harmony import */ var core_js_modules_web_dom_collections_for_each__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_web_dom_collections_for_each__WEBPACK_IMPORTED_MODULE_0__);
+
+
+var slider = function slider(slides, dir, prev, next) {
+  var slideIndex = 1;
+  var paused = false;
+  var slideItems = document.querySelectorAll(slides);
+
+  function showSlides(n) {
+    // блок регулирует показ слайдов чтоб не выходил за пограничные значения
+    if (n > slideItems.length) {
+      slideIndex = 1;
+    }
+
+    if (n < 1) {
+      slideIndex = slideItems.length;
+    } // скрываем все слайды
+
+
+    slideItems.forEach(function (item) {
+      item.classList.add('animated');
+      item.style.display = 'none';
+    }); // показываем первый слайд, слайд индекс у нас 1, а в массиве он 0, поэтому slideIndex - 1 = 0;
+
+    slideItems[slideIndex - 1].style.display = 'block';
+  } // Вызваем функцию показа слайдов, она скроет все слайды и запустить первый слайд
+
+
+  showSlides(slideIndex); // функция переключения слайда, при вызове мы будем передавать аргумент n в котором будет либо 1, либо -1
+  // и внутри будет запускаться функ showSlides
+
+  function plusSlide(n) {
+    showSlides(slideIndex = slideIndex + n);
+  }
+  /* один из слайдов без стрелок переключения и блок try позволяет проверить если они не были переданны при вызове
+   то скрипт не сломается */
+
+
+  try {
+    var prevBtn = document.querySelector(prev);
+    var nextBtn = document.querySelector(next); // при клике на кнопку назад в запускается функция plusSlide(-1),  слайд переходит назад
+
+    prevBtn.addEventListener('click', function () {
+      plusSlide(-1);
+      slideItems[slideIndex - 1].classList.remove('slideInRight');
+      slideItems[slideIndex - 1].classList.add('slideInLeft');
+    }); // при клике на кнопку назад в запускается функция plusSlide(1), слайд переходит вперед 
+
+    nextBtn.addEventListener('click', function () {
+      plusSlide(1);
+      slideItems[slideIndex - 1].classList.remove('slideInLeft');
+      slideItems[slideIndex - 1].classList.add('slideInRight');
+    });
+  } catch (e) {} //функция активации анимации, к setInterval добавляем id в виде переменной paused
+  // проверяем условие если аргумент dir имеет значение вертикальное, класс переключения верткальный
+
+
+  function activateAnimation() {
+    if (dir === 'vertical') {
+      paused = setInterval(function () {
+        plusSlide(1);
+        slideItems[slideIndex - 1].classList.add('slideInDown');
+      }, 3000);
+    } else {
+      paused = setInterval(function () {
+        plusSlide(1);
+        slideItems[slideIndex - 1].classList.remove('slideInRight');
+        slideItems[slideIndex - 1].classList.add('slideInLeft');
+      }, 3000);
+    }
+  } // запуск функции инициализации работы слайдов
+
+
+  activateAnimation(); // два обработчика событий на обоих слайдерах, при наведении мышки остановить работу слайдер, при уводе мышки запустить animateActivation();
+
+  slideItems[0].parentNode.addEventListener('mouseenter', function () {
+    clearInterval(paused);
+  });
+  slideItems[0].parentNode.addEventListener('mouseleave', function () {
+    activateAnimation();
+  });
+};
+
+/* harmony default export */ __webpack_exports__["default"] = (slider);
 
 /***/ })
 
