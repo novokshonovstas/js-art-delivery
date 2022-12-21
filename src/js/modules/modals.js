@@ -1,3 +1,5 @@
+import { validateForNum } from "./validateForNum";
+
 const modals = () => {
   let isModalOpen = false;
 
@@ -12,6 +14,8 @@ const modals = () => {
       close = document.querySelector(closeSelector),
       windows = document.querySelectorAll("[data-modal]"),
       scroll = calcScroll();
+
+    validateForNum('[name="phone"]');
 
     trigger.forEach((item) => {
       item.addEventListener("click", (e) => {
@@ -65,7 +69,7 @@ const modals = () => {
     const mainSection = document.querySelector(".main");
 
     // при наводе мышки на секию main - анимация подарка
-    mainSection.addEventListener("mouseenter", () => {
+    mainSection.addEventListener("mouseover", () => {
       mainGiftIcon.classList.add("animated", "pulse");
     });
     // если подарок удален - удаляем обработчик событий
@@ -75,16 +79,14 @@ const modals = () => {
     // перебираем две картинки подарка и активируем разные анимаци при наведении на сам подарок и подарок внутри модалки
     fixedGifts.forEach((gift) => {
       let secondImg = !gift.classList.contains("fixed-gift");
-// подарок внутри модалки
+      // подарок внутри модалки
       if (secondImg) {
-        document
-          .querySelector(".popup-gift")
-          .addEventListener("mouseenter", () => {
+        document.querySelector(".popup-gift").addEventListener("mouseover", () => {
             gift.classList.add("animated", "tada");
           });
-          // подарок на главной странице
+        // подарок на главной странице
       } else {
-        gift.addEventListener("mouseenter", () => {
+        gift.addEventListener("mouseover", () => {
           gift.classList.add("animated", "pulse");
         });
       }
@@ -92,7 +94,6 @@ const modals = () => {
   }
 
   activateAnimationGift();
-  
 
   function showModalByTime(selector, time) {
     setTimeout(() => {
@@ -149,9 +150,8 @@ const modals = () => {
     ".popup-consultation .popup-close"
   );
   bindModal(".fixed-gift", ".popup-gift", ".popup-gift .popup-close", true);
-  showModalByTime(".popup-consultation", 40000);
+  // showModalByTime(".popup-consultation", 40000);
   showModalByScroll(".fixed-gift");
 };
 
 export default modals;
-

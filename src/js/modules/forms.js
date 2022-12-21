@@ -1,11 +1,15 @@
-import {postData} from '../services/requests';
+import { postData } from '../services/requests';
+import { validateForNum } from '../modules/validateForNum';
 
-const forms = () => {
+const forms = (state) => {
     const forms = document.querySelectorAll('form');
-    const inputs = document.querySelectorAll('input');
     const upload = document.querySelectorAll('[name="upload"]');
+    const inputName = document.querySelectorAll('form [name]');
+    const selects = document.querySelectorAll('.calc_form select');
 
-    // putNumOnly('[name="user_phone"]');
+
+
+    validateForNum('[name="phone"]');
 
     const message = {
         loading: 'Загрузка...',
@@ -17,17 +21,25 @@ const forms = () => {
     };
 
     const path = {
-        designer: 'assets/server.php',
+        designer: 'assets/designer.php',
         question: 'assets/question.php',
     };
 
   
 
     const clearInputs = () => {
-        // инпут тайп текст
-        inputs.forEach(input => {
+        
+        // все cелекты
+        selects.forEach(input => {
             input.value = '';
         });
+// все инпуты внутри форм с аттрибутом name текст
+        inputName.forEach(input => {
+            input.value = '';
+        });
+        // очистка поля с ценой в форме калькулятора
+        document.querySelector('.calc-price').textContent = 'Пожалуйста, выберите материал и размер картины!';
+
         // инпут тайп файл
         upload.forEach(input => {
             input.previousElementSibling.textContent = 'Файл не выбран';
@@ -78,9 +90,17 @@ const forms = () => {
 
 
             const formData = new FormData(form);
+            if(form.getAttribute('data-calc') === 'calc') {
+                for(let key in state) {
+                    formData.append(key, state[key]);
+                }
+            }
             let api;
             form.closest('.popup-design') || form.classList.contains('calc_form') ? api = path.designer : api = path.question;
             console.log(api);
+
+    
+           
            
             postData(api, formData)
                 .then(res => {

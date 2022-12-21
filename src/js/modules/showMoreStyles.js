@@ -18,11 +18,16 @@ const btnShow = document.querySelector(selector);
 
 // });
 
-btnShow.addEventListener('click', function() {
-    getResource('http://localhost:3000/styles')
-        .then(res => createCards(res));
 
-        this.remove();
+
+btnShow.addEventListener("click", function () {
+  getResource("http://localhost:3000/styles")
+    .then((res) => createCards(res))
+    .catch((err) => console.log(err))
+    .finally(() => {
+      btnShow.classList.add("animated", "fadeOutUpBig");
+      this.remove();
+    });
 });
 
 
