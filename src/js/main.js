@@ -8,6 +8,7 @@ import changeFormState from "./modules/changeFormState";
 import filter from "./modules/filter";
 import imgSize from "./modules/imgSize";
 import accordion from "./modules/accordion";
+import burger from "./modules/burger";
 
 
 window.addEventListener('DOMContentLoaded', () => {
@@ -26,6 +27,7 @@ window.addEventListener('DOMContentLoaded', () => {
     filter();
     imgSize('.sizes-block');
     accordion('.accordion-heading', '.accordion-block');
+    burger('.burger-menu', '.burger');
 
 
     

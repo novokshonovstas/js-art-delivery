@@ -24,7 +24,7 @@ const no = document.querySelector('.portfolio-no');
 
     /* Принимает параметр марк тайп по которому будет фильтровать
 
-1. перебираем все картинки с классом .all и скрываем их
+1.cоздаем функцию -  перебираем все картинки markAll с классом .all и скрываем их
 2. скрываем блок no - это блок в котором надпись что таких картинок мы еще не делали
 3. дале проверяем условие if(markType) - если марк тайп передан, а это псевдомассив который соответствет всем картинкам данной категории
 для девушки, парня и тд. Перебираем этот псевдомассив и назначаем ему стайл блок
@@ -69,18 +69,15 @@ activateTypeFilter(btnGrandmother);
 activateTypeFilter(btnGranddad);
 
 
-menu.addEventListener('click', (e) => {
-let target = e.target;
-
-if(target && target.tagName === 'LI') {
-     menuItems.forEach(item => {
-        item.classList.remove('active');
-        }); 
-        target.classList.add('active');
-
-}
+menu.addEventListener("click", (e) => {
+  let target = e.target;
+  if (target && target.tagName === "LI") {
+    menuItems.forEach((item) => {
+      item.classList.remove("active");
+    });
+    target.classList.add("active");
+  }
 });
-
 
 };
 export default filter;

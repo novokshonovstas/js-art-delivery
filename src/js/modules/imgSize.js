@@ -41,3 +41,4 @@ function hideImg(block) {
 };
 
 export default imgSize;
+
